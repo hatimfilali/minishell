@@ -1,4 +1,3 @@
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -9,6 +8,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
+#include <termios.h>
+
 
 
 typedef struct node
@@ -57,5 +58,6 @@ void cd(const char* dir);
 void	pwd(void);
 void	ft_begin(void);
 void handle_ctrl_c(int sig) ;
+void	rl_replace_line (const char *text, int clear_undo);
 
 #endif

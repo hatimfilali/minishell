@@ -2,8 +2,9 @@
 
 void handle_ctrl_c(int sig) 
 {
-    printf("\n"); // New line after the ^C (SIGINT) message
-    rl_on_new_line();
-    rl_redisplay(); // Redisplay the prompt
-    printf("minishell> ");
-    fflush(stdout);}
+   (void)sig;
+	write(0, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
