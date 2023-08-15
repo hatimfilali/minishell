@@ -22,6 +22,18 @@ void ft_exec(char *str)
                 free(str);
                 exit (0);
             }
+            else if (ft_cmdcmp(str, "env"))
+            {
+                env();
+            }
+            else if (ft_cmdcmp(str, "export"))
+            {
+                export(splited[1]);
+            }
+            else if (ft_cmdcmp(str, "unset"))
+            {
+                unset(splited[1]);
+            }
             else
                 if (splited[0])
                     printf("minishell: command not found: %s\n", splited[0]);

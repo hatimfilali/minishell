@@ -1,10 +1,16 @@
 #include "minishell.h"
 
+int ft_strlen (const char *str)
+{
+    int i = 0;
+    while (str[i++]);
+    return (i);
+}
+
 void cd(const char* dir)
 {
-    if (dir == NULL)
+    if (dir == NULL || (dir[0] == '~' && !dir[1]) || !ft_strlen(dir))
     {
-    // If no argument is provided, get the home directory and change to it
         char* home_dir = getenv("HOME");
         if (home_dir == NULL)
         {
@@ -16,15 +22,7 @@ void cd(const char* dir)
     } 
     else
     {
-        // If an argument is provided, change to the specified directory
         if (chdir(dir) != 0)
             perror("chdir");
     }
-    // Get the current working directory and display it
-    // char cwd[1024];
-    // if (getcwd(cwd, sizeof(cwd)) != NULL) {
-    //     printf("Current directory: %s\n", cwd);
-    // } else {
-    //     perror("getcwd");
-    // }
 }

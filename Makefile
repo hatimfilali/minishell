@@ -6,18 +6,18 @@ NAME = minishell
 obj = ${src:.c=.o}
 main_obj = ${main:.c=.o}
 
-CFLAGS = -Wall -Wextra -Werror
+# CFLAGS = -Wall -Wextra -Werror
 libreadline = -lreadline -L/Users/hfilali/homebrew/opt/readline/lib
 incldlib = -I/Users/hfilali/homebrew/opt/readline/include
 
 all : $(NAME)
 
 $(NAME) : $(main_obj) $(obj)
-	@gcc $(CFLAGS) $(main_obj) $(obj) $(libreadline) -o $(NAME)
+	@gcc-11 $(main_obj) $(obj) $(libreadline) -o $(NAME)
 	@echo "MINISHELL IS READY✅✅"
 
 %.o : %.c
-	@gcc $(CFLAGS) -c $< -o $@
+	@gcc-11 $(CFLAGS) -c $< -o $@
 clean :
 	@rm -rf $(main_obj) $(obj) 
 	@echo "OBJECT FILES HAS BEEN DELETED🚮🚮"
