@@ -1,4 +1,4 @@
-src = echo.c ft_split.c env.c cd.c pwd.c ft_begin.c handl_signals.c
+src = echo.c ft_split.c env.c cd.c pwd.c ft_begin.c handl_signals.c execve.c
 
 main = main.c
 NAME = minishell
