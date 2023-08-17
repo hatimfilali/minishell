@@ -32,29 +32,29 @@ void rubnbilt(char **splited)
 {
     if (ft_cmdcmp(splited[0], "echo"))
                     echo(&splited[1]);
-            else if (ft_cmdcmp(splited[1], "cd"))
+            else if (ft_cmdcmp(splited[0], "cd"))
                 cd (splited[1]);
-            else if (ft_cmdcmp(splited[1], "pwd"))
+            else if (ft_cmdcmp(splited[0], "pwd"))
             {
                 if (!splited[1])
                     pwd();
                 else
                     printf("pwd: too manyarguments\n");
             }
-            else  if (ft_cmdcmp(splited[1], "exit")) 
+            else  if (ft_cmdcmp(splited[0], "exit")) 
             {
                 // free(splited[1]);
                 exit (0);
             }
-            else if (ft_cmdcmp(splited[1], "env"))
+            else if (ft_cmdcmp(splited[0], "env"))
             {
                 env();
             }
-            else if (ft_cmdcmp(splited[1], "export"))
+            else if (ft_cmdcmp(splited[0], "export"))
             {
                 export(splited[1]);
             }
-            else if (ft_cmdcmp(splited[1], "unset"))
+            else if (ft_cmdcmp(splited[0], "unset"))
             {
                 unset(splited[1]);
             }
@@ -67,9 +67,9 @@ void ft_exec(char *str)
         {
             add_history(str);
             char **splited = ft_split(str, ' ');
-            if (ft_cmdcmp(splited[1], "unset") || ft_cmdcmp(splited[1], "export") \
-                    || ft_cmdcmp(splited[1], "env") || ft_cmdcmp(splited[1], "exit") \
-                    || ft_cmdcmp(splited[1], "pwd") || ft_cmdcmp(splited[1], "cd"))
+            if (ft_cmdcmp(splited[0], "unset") || ft_cmdcmp(splited[0], "export") \
+                    || ft_cmdcmp(splited[0], "env") || ft_cmdcmp(splited[0], "exit") \
+                    || ft_cmdcmp(splited[0], "pwd") || ft_cmdcmp(splited[0], "cd"))
             {
                 rubnbilt(splited);
             }
