@@ -52,7 +52,7 @@ void rubnbilt(char **splited)
             }
             else if (ft_cmdcmp(splited[0], "export"))
             {
-                export(splited[1]);
+                export(splited);
             }
             else if (ft_cmdcmp(splited[0], "unset"))
             {

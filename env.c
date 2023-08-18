@@ -77,22 +77,37 @@ void env(void)
     }
 }
 
+void ft_strncpy(char *dest, char *src, int n)
+{
+    int i= 0;
+    while (i <= n && src[i])
+    {
+        dest[i] = src[i];
+        i++;
+    }
+}
+
 char *ft_str_append(char *str, char c)
 {
     int i = 0 ;
+    char *s;
     if (!str)
     {
-        str = malloc(2);
-        str[0] = c;
-        str[1] = 0;
+        s = malloc(2);
+        s[0] = c;
+        s[1] = 0;
     }
     else 
     {
+        
         while (str[i++]);
-        str = realloc(str, i + 2);
-        strcat(str, &c);
-        return str;
+        s = malloc(sizeof(char) * i + 1);
+        
+        ft_strncpy(s, str, i+1);
+        s[i-1] = c;
+        s[i] = 0;
     }
+    return s;
 }
 
 void remove_var(char **env, int index)
@@ -153,22 +168,71 @@ void unset(char *name)
     }
 }
 
-void export(char *var)
+int ft_strcmpare(char *s1, char *s2)
 {
+    int i = 0;
+    while (s1[i] && s2[i] && s1[i]==s2[i])
+        i++;
+    return (int)(s1[i] - s2[i]);
+}
+
+void sort_env(char **env)
+{
+    char *tmp;
+    int i = 0;
+    int j;
+
+    while (env[i])
+    {
+        j = i + 1;
+        while (env[j])
+        {
+            if (ft_strcmpare(env[i], env[j]) > 0)
+            {
+                tmp = env[i];
+                env[i] = env[j];
+                env[j] = tmp;
+                break;
+            }
+            j++;
+        }
+        if(!env[j])
+            i++;
+    }
+}
+
+void test_export(void)
+{
+    extern char **environ;
+    char **env = environ;
+    sort_env(env);
+    while (*env)
+    {
+        printf("declare -x %s\n", *env);
+        env++;
+    }
+}
+
+void export(char **var)
+{
+    int j = 0;
     int i = 0;
     char *name = NULL;
     char *value =NULL;
 
-    if (!var)
+    if (!var[++j])
+    {
+        test_export();
         return;
-    while (var[i] && var[i]!= '=')
-        name = ft_str_append(name, var[i++]);
-    if (var[i] == '=')
+    }
+    while (var[j][i] && var[j][i]!= '=')
+        name = ft_str_append(name, var[j][i++]);
+    if (var[j][i] == '=')
         i++;
-    while (var[i])
-        value = ft_str_append(value, var[i++]);
+    while (var[j][i])
+        value = ft_str_append(value, var[j][i++]);
     if(!name || !value)
         return;
     unset(name);
-    add_var(var);
+    add_var(var[j]);
 }

@@ -22,34 +22,39 @@ void execute_absolute_path(char *path, char **args)
     }
 }
 
-int find_command(char *command, char *full_path) {
+int find_command(char *command, char *full_path) 
+{
+    int i = 0;
     // Get the PATH environment variable
     char *path = getenv("PATH");
-    if (path == NULL) {
+    if (path == NULL) 
+    {
         return 0; // PATH variable not found
     }
 
     // Split the PATH into individual directories
-    char *dir = strtok(path, ":");
-    while (dir != NULL) {
+    char **dir = ft_split(path, ':');
+    while (dir && dir[i]) 
+    {
         // Construct the full path to the executable
-        snprintf(full_path, PATH_MAX, "%s/%s", dir, command);
+        snprintf(full_path, PATH_MAX, "%s/%s", dir[i], command);
 
         // Check if the file is executable
-        if (access(full_path, X_OK) == 0) {
+        if (access(full_path, X_OK) == 0) 
+        {
             return 1; // Executable found
         }
-
-        dir = strtok(NULL, ":");
+        i++;
     }
 
-    return 0; // Executable not found
+    return 3; // Executable not found
 }
 
 void execute_command(char *command, char **args) {
     char full_path[PATH_MAX];
 
-    if (find_command(command, full_path)) {
+    if (find_command(command, full_path)==1) 
+    {
         pid_t pid = fork();
 
         if (pid == 0) {
@@ -64,7 +69,8 @@ void execute_command(char *command, char **args) {
             int status;
             waitpid(pid, &status, 0);
         }
-    } else {
+    } 
+    else 
         printf("minishell: command not found\n");
-    }
+    
 }

@@ -24,7 +24,7 @@ void	handle_ctrl_c(int sig) ;
 void	rl_replace_line (const char *text, int clear_undo);
 char	**get_env(char **p);
 void	env(void);
-void	export(char *var);
+void	export(char **var);
 void	unset(char *name);
 char	*ft_str_append(char *str, char c);
 void	ft_start(struct termios origin, struct termios fake);
