@@ -14,14 +14,12 @@ void	ft_begin(void)
     printf( "\n");
 }
 
-void ft_start(struct termios origin, struct termios fake)
+void ft_start(void)
 {
     char *str;
-    tcsetattr(STDIN_FILENO, TCSANOW, &fake);
     signal(SIGINT, handle_ctrl_c);
     str = readline("minshell: ");
     signal(SIGQUIT, SIG_IGN);
-    tcsetattr(STDIN_FILENO, TCSANOW, &origin);
     if (!str)
         exit(0);
     ft_exec(str);
@@ -43,8 +41,7 @@ void rubnbilt(char **splited)
             }
             else  if (ft_cmdcmp(splited[0], "exit")) 
             {
-                // free(splited[1]);
-                exit (0);
+                ft_exit (splited[1]);
             }
             else if (ft_cmdcmp(splited[0], "env"))
             {

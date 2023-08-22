@@ -2,6 +2,60 @@
 
 
 
+int	fill_int(long nbr, int i, char *n, int neg)
+{
+	while (n[i] <= '9' && n[i] >= '0')
+	{
+		nbr = nbr * 10 + (n[i] - 48);
+		if (((nbr * neg) > 2147483647) || ((nbr * neg) < -2147483648))
+			{
+                printf("minishell: exit: %s: numeric argument required", n);
+                return (2);
+            }
+		i++;
+	}
+	if (n[i] != ' ' && n[i] != '\t' && n[i] != '\r'
+		&& n[i] != '\n' && n[i] != '\v' && n[i] != '\f' && n[i])
+	{
+		printf("minishell: exit: %s: numeric argument required", n);
+        return (2);
+	}
+	if (neg == -1)
+		return (-nbr);
+	return (nbr);
+}
+
+int	ftt_atoi(char	*n)
+{
+	int					i;
+	int					neg;
+	unsigned long long	nbr;
+
+	nbr = 0;
+	i = 0;
+	neg = 1;
+	while (n[i] == ' ' || n[i] == '\t' || n[i] == '\r'
+		|| n[i] == '\n' || n[i] == '\v' || n[i] == '\f')
+		i++;
+	if (n[i] == '-' || n[i] == '+')
+	{
+		if (n[i] == '-')
+			neg = -1;
+		i++;
+	}
+	return (fill_int(nbr, i, n, neg));
+}
+
+void ft_exit(char *status)
+{
+    int s;
+    printf("exit\n");
+    if (!status)
+        exit (0);
+    s = ftt_atoi(status);
+    exit(s);
+}
+
 char	*ft_strnstr(char *str, char *needle, size_t n)
 {
 	size_t	i;
@@ -46,9 +100,10 @@ char	**get_env(char **p)
 {
 	static char	**env;
 	int			i;
-    extern char *environ;
+    extern char **environ;
 	i = 0;
     if (!env)
+        env  = environ;
 	if (p != NULL)
 	{
 		env = malloc((size(p) + 1) * sizeof(char *));
@@ -173,10 +228,17 @@ int ft_strcmpare(char *s1, char *s2)
 
 void sort_env(char **env)
 {
+    char **envi = env;
     char *tmp;
     int i = 0;
     int j;
-
+    // while (env[i])
+    // {
+    //     ft_strncpy(envi[i], env[i], strlen(env[i]));
+    //     i++;
+    // }
+    // envi[i] = 0;
+    // i = 0;
     while (env[i])
     {
         j = i + 1;
@@ -184,16 +246,17 @@ void sort_env(char **env)
         {
             if (ft_strcmpare(env[i], env[j]) > 0)
             {
-                tmp = env[i];
-                env[i] = env[j];
-                env[j] = tmp;
+                tmp = envi[i];
+                envi[i] = envi[j];
+                envi[j] = tmp;
                 break;
             }
             j++;
         }
-        if(!env[j])
+        if(!envi[j])
             i++;
     }
+    // return (envi);
 }
 
 void test_export(void)

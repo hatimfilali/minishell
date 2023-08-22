@@ -1,1 +1,11 @@
-snprintf should be replaced;
+1- allocate to the pointers in all the functions;
+
+2- env should not be sorted after export is called;
+
+3- built-in should be tested to search for errors;
+
+4- redirections;
+
+5- pipe should be implemented successfully;
+
+6- operations should be passed to the program and be implemented successfully;

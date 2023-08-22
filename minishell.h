@@ -13,6 +13,7 @@
 #include <sys/wait.h>
 #include <limits.h>
 
+void    ft_exit(char *status);
 void	echo(char **arg);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_cmdcmp(char *s1, char *s2);
@@ -27,7 +28,7 @@ void	env(void);
 void	export(char **var);
 void	unset(char *name);
 char	*ft_str_append(char *str, char c);
-void	ft_start(struct termios origin, struct termios fake);
+void	ft_start(void);
 void	ft_exec(char *str);
 void	execute_absolute_path(char *path, char **args);
 void execute_command(char *command, char **args);
