@@ -46,8 +46,9 @@ char	**get_env(char **p)
 {
 	static char	**env;
 	int			i;
-
+    extern char *environ;
 	i = 0;
+    if (!env)
 	if (p != NULL)
 	{
 		env = malloc((size(p) + 1) * sizeof(char *));
@@ -58,19 +59,12 @@ char	**get_env(char **p)
 		}
 		env[i] = NULL;
 	}
-    else 
-    {
-        extern char **environ;
-        env = environ;
-    }
 	return (env);
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void env(void)
 {
-    extern char **environ; // External array containing environment variables
-    char **env = environ;
+    char **env = get_env(NULL);
     while ( *env != NULL)
     {
         printf("%s\n", *env);
@@ -204,8 +198,7 @@ void sort_env(char **env)
 
 void test_export(void)
 {
-    extern char **environ;
-    char **env = environ;
+    char **env = get_env(NULL);
     sort_env(env);
     while (*env)
     {
